@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:TodoSQLite.Models"
+             x:Class="TodoSQLite.Views.TodoListPage"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             Title="Инвентарь">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="ToTopButton" Clicked="ToTopButton_Clicked" Text="^" Margin="20" Grid.Row="0"/>
+        <CollectionView 
+           VerticalOptions="Fill"
+           x:Name="TransactionCollectionView"
+           ItemsSource="{Binding Transaction}"
+           SelectionMode="Single"
+           SelectionChanged="CollectionView_SelectionChanged"
+           Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Transaction">
+                    <HorizontalStackLayout Padding="20"
+                                           Spacing="10" 
+                                           Grid.Row="0">
+                        <VerticalStackLayout Padding="20"
+                                             Spacing="10"
+                                             VerticalOptions="StartAndExpand" 
+                                             Grid.Row="0">
+                            <Label Text="{Binding Description}" VerticalTextAlignment="Center"/>
+                            <Label Text="{Binding Value}" VerticalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Padding="20"
+                                             Spacing="10"
+                                             VerticalOptions="StartAndExpand" 
+                                             Grid.Row="0">         
+                            <Label Text="{Binding DateTime}" VerticalTextAlignment="Center"/>
+                            <Label Text="{Binding BucketId}" VerticalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button x:Name="ToButtomButton" Clicked="ToButtomButton_Clicked" Text="v" Margin="20" Grid.Row="2"/>
+        <HorizontalStackLayout Grid.Row="3">
+            <Button Text="Add New Transaction" Clicked="OnTransactionAdded" Margin="20"/>
+            <Label x:Name="SumLbl" VerticalTextAlignment="Center" Text="{Binding Sum}"/>
+            <Button Text="Settings" Clicked="On_Settings_Clicked" Margin="20"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Row="4">
+            <CollectionView 
+                      VerticalOptions="Fill"
+                      ItemsSource="{Binding Bucket}"
+                      SelectionMode="Single"
+                      SelectionChanged="CollectionView_SelectionChanged" 
+                      WidthRequest="200">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Bucket">
+                        <HorizontalStackLayout>
+                            <VerticalStackLayout Padding="20"
+                                                 Spacing="10"
+                                                 VerticalOptions="StartAndExpand">
+                                <Label Text="{Binding Id}" VerticalTextAlignment="Center"/>
+                                <Label Text="{Binding Multiplier}" VerticalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Padding="20"
+                                                 Spacing="10"
+                                                 VerticalOptions="StartAndExpand">
+                                <Label Text="{Binding UnitName}" VerticalTextAlignment="Center"/>
+                                <Label Text="{Binding Score}" VerticalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <CollectionView 
+                      VerticalOptions="Fill"
+                      ItemsSource="{Binding BucketGroups}"
+                      SelectionMode="Single"
+                      SelectionChanged="CollectionView_SelectionChanged"
+                      WidthRequest="200">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:BucketGroup">
+                        <VerticalStackLayout Padding="20"
+                                     Spacing="10"
+                                     VerticalOptions="StartAndExpand">
+                            <Label Text="{Binding GroupName}" VerticalTextAlignment="Center"/>
+                            <Label Text="{Binding Score}" VerticalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </HorizontalStackLayout>
+        <Button Grid.Row="5" Text="Add New Bucket" Clicked="OnBucketAdded"
+                Margin="20"/>
+    </Grid>
+</ContentPage>
